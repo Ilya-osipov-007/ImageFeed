@@ -58,6 +58,11 @@
 			path = ImageFeedUITests;
 			sourceTree = "<group>";
 		};
+		80F935582F363B0B004E8422 /* ImagesList */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ImagesList;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +93,7 @@
 		8069F08E2F34A75D006BDDEE = {
 			isa = PBXGroup;
 			children = (
+				80F935582F363B0B004E8422 /* ImagesList */,
 				8069F0992F34A75D006BDDEE /* ImageFeed */,
 				8069F0B02F34A75F006BDDEE /* ImageFeedTests */,
 				8069F0BA2F34A75F006BDDEE /* ImageFeedUITests */,
@@ -122,6 +128,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				8069F0992F34A75D006BDDEE /* ImageFeed */,
+				80F935582F363B0B004E8422 /* ImagesList */,
 			);
 			name = ImageFeed;
 			packageProductDependencies = (
