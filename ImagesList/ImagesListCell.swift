@@ -7,10 +7,10 @@
 
 import UIKit
 
-final class ImagesListCell: UITableViewCell {
-    static let reuseIdentifier = "ImagesListCell"
-    @IBOutlet var likeButton: UIButton!
-    @IBOutlet var cellImage: UIImageView!
-    @IBOutlet var dateLabel: UILabel!
-}
+final class ImagesListCell: UITableViewCell { // for 08 sprint
+    static let reuseIdentifier = "ImagesListCell" // for 08 sprint
+    @IBOutlet var likeButton: UIButton! // for 08 sprint
+    @IBOutlet var cellImage: UIImageView! // for 08 sprint
+    @IBOutlet var dateLabel: UILabel! // for 08 sprint
+} // for 08 sprint
 
