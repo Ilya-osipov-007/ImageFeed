@@ -2,7 +2,7 @@ import UIKit // for 08 sprint
 
 final class ImagesListViewController: UIViewController {  // for 08 sprint
     @IBOutlet private var tableView: UITableView!  // for 08 sprint
-    private let today = Date()
+    private let today = Date() // for 08 sprint
     private var photosName: [String] = Array(0..<20).map{ "\($0)"}  // for 08 sprint
     
     
@@ -48,13 +48,13 @@ extension ImagesListViewController { // for 08 sprint
         } // for 08 sprint
         
         cell.cellImage.image = image // for 08 sprint
-        cell.dateLabel.text = dateFormatter.string(from: today) // for 08 sprint
+        cell.dateLabel.text = dateFormatter.string(from: today)  // for 08 sprint// for 08 sprint
         
         let isLiked = indexPath.row % 2 == 0 // for 08 sprint
         // let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off") // for 08 sprint
-        let imageResource: ImageResource = isLiked ? .likeButtonOn : .likeButtonOff
-        let images = UIImage(resource: imageResource)
-        cell.likeButton.setImage(images, for: .normal) // for 08 sprint
+        let imageResource: ImageResource = isLiked ? .likeButtonOn : .likeButtonOff // for 08 sprint
+        let images = UIImage(resource: imageResource) // for 08 sprint
+        cell.likeButton.setImage(images, for: .normal) // for 08 sprint // for 08 sprint
     } // for 08 sprint
     // for 08 sprint
 } // for 08 sprint
