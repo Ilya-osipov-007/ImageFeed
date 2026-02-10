@@ -2,8 +2,10 @@ import UIKit // for 08 sprint
 
 final class ImagesListViewController: UIViewController {  // for 08 sprint
     @IBOutlet private var tableView: UITableView!  // for 08 sprint
-    
+    private let today = Date()
     private var photosName: [String] = Array(0..<20).map{ "\($0)"}  // for 08 sprint
+    
+    
     
     private lazy var dateFormatter: DateFormatter = {  // for 08 sprint
         let formatter = DateFormatter()  // for 08 sprint
@@ -14,9 +16,10 @@ final class ImagesListViewController: UIViewController {  // for 08 sprint
     
     override func viewDidLoad() { // for 08 sprint
         super.viewDidLoad() // for 08 sprint
-
-        tableView.rowHeight = 200 // for 08 sprint
+        
+        // tableView.rowHeight = 200 // for 08 sprint
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0) // for 08 sprint
+        
     } // for 08 sprint
 } // for 08 sprint
 
@@ -45,11 +48,13 @@ extension ImagesListViewController { // for 08 sprint
         } // for 08 sprint
         
         cell.cellImage.image = image // for 08 sprint
-        cell.dateLabel.text = dateFormatter.string(from: Date()) // for 08 sprint
+        cell.dateLabel.text = dateFormatter.string(from: today) // for 08 sprint
         
         let isLiked = indexPath.row % 2 == 0 // for 08 sprint
-        let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off") // for 08 sprint
-        cell.likeButton.setImage(likeImage, for: .normal) // for 08 sprint
+        // let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off") // for 08 sprint
+        let imageResource: ImageResource = isLiked ? .likeButtonOn : .likeButtonOff
+        let images = UIImage(resource: imageResource)
+        cell.likeButton.setImage(images, for: .normal) // for 08 sprint
     } // for 08 sprint
     // for 08 sprint
 } // for 08 sprint
