@@ -45,6 +45,11 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		80561C7E2F3C85C500F9F969 /* SingleImigeView */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SingleImigeView;
+			sourceTree = "<group>";
+		};
 		8069F0992F34A75D006BDDEE /* ImageFeed */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -98,6 +103,7 @@
 		8069F08E2F34A75D006BDDEE = {
 			isa = PBXGroup;
 			children = (
+				80561C7E2F3C85C500F9F969 /* SingleImigeView */,
 				80561BA62F38BF5800F9F969 /* Profile */,
 				80F935582F363B0B004E8422 /* ImagesList */,
 				8069F0992F34A75D006BDDEE /* ImageFeed */,
@@ -134,6 +140,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				80561BA62F38BF5800F9F969 /* Profile */,
+				80561C7E2F3C85C500F9F969 /* SingleImigeView */,
 				8069F0992F34A75D006BDDEE /* ImageFeed */,
 				80F935582F363B0B004E8422 /* ImagesList */,
 			);
