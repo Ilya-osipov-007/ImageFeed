@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class SingleImageViewController: UIViewController {
+final class SingleImageViewController: UIViewController {
     var image: UIImage?{
         didSet {
             guard isViewLoaded else { return } // 1
@@ -14,7 +14,7 @@ class SingleImageViewController: UIViewController {
         }
     }
     
-    @IBOutlet var imageView: UIImageView!
+    @IBOutlet private var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +42,8 @@ class SingleImageViewController: UIViewController {
         view.layoutIfNeeded()
         let visibleRectSize = scrollView.bounds.size
         let imageSize = image.size
-        let hScale = visibleRectSize.width / imageSize.width
-        let vScale = visibleRectSize.height / imageSize.height
+        let hScale = imageSize.width > 0 ? visibleRectSize.width / imageSize.width : 1.0
+        let vScale = imageSize.height > 0 ? visibleRectSize.height / imageSize.height : 1.0
         let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
         scrollView.setZoomScale(scale, animated: false)
         scrollView.layoutIfNeeded()

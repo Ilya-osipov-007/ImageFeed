@@ -27,11 +27,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="lM8-rd-JXN" userLabel="Cell Image">
-                                                    <rect key="frame" x="16" y="4" width="361" height="213"/>
+                                                    <rect key="frame" x="16" y="15" width="361" height="202"/>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="361" id="sOk-hj-Pdd"/>
-                                                    </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="16"/>
@@ -60,7 +57,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OnM-wG-ykU" userLabel="Like Button">
-                                                    <rect key="frame" x="333" y="4" width="44" height="44"/>
+                                                    <rect key="frame" x="333" y="15" width="44" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="44" id="Wes-gG-LMA"/>
                                                         <constraint firstAttribute="height" constant="44" id="cHN-Pw-3Ie"/>
@@ -75,7 +72,7 @@
                                                 <constraint firstItem="k7D-7y-ICs" firstAttribute="bottom" secondItem="lM8-rd-JXN" secondAttribute="bottom" id="Msa-vu-FQi"/>
                                                 <constraint firstItem="OnM-wG-ykU" firstAttribute="trailing" secondItem="lM8-rd-JXN" secondAttribute="trailing" id="Nhw-xo-zbc"/>
                                                 <constraint firstItem="lM8-rd-JXN" firstAttribute="bottom" secondItem="meD-Zx-pkV" secondAttribute="bottom" constant="8" id="Po5-fX-eYR"/>
-                                                <constraint firstItem="lM8-rd-JXN" firstAttribute="top" secondItem="Gy0-Ih-DFg" secondAttribute="topMargin" constant="-7" id="Vcg-NL-tiO"/>
+                                                <constraint firstItem="lM8-rd-JXN" firstAttribute="top" secondItem="Gy0-Ih-DFg" secondAttribute="topMargin" constant="4" id="Vcg-NL-tiO"/>
                                                 <constraint firstItem="lM8-rd-JXN" firstAttribute="centerX" secondItem="Gy0-Ih-DFg" secondAttribute="centerX" id="Xwl-ht-FTi"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="meD-Zx-pkV" secondAttribute="trailing" constant="20" symbolic="YES" id="f0J-ON-o34"/>
                                                 <constraint firstItem="k7D-7y-ICs" firstAttribute="trailing" secondItem="lM8-rd-JXN" secondAttribute="trailing" id="oAm-gM-Bxu"/>
@@ -84,6 +81,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="lM8-rd-JXN" secondAttribute="bottom" constant="4" id="0yA-b1-h4v"/>
+                                            <constraint firstItem="lM8-rd-JXN" firstAttribute="leading" secondItem="lGs-kd-RDo" secondAttribute="leading" constant="16" id="4yq-Da-1X7"/>
+                                            <constraint firstItem="lM8-rd-JXN" firstAttribute="centerX" secondItem="lGs-kd-RDo" secondAttribute="centerX" id="fw4-Qm-caA"/>
+                                            <constraint firstAttribute="trailing" secondItem="lM8-rd-JXN" secondAttribute="trailing" constant="16" id="gaX-2n-fL1"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="cellImage" destination="lM8-rd-JXN" id="4ly-Pg-c1K"/>
                                             <outlet property="dateBackgroundView" destination="k7D-7y-ICs" id="2Xk-OX-ICs"/>
@@ -162,12 +165,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nYP-jy-USf">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nYP-jy-USf">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="H1K-Jd-9I2">
-                                        <rect key="frame" x="0.0" y="19" width="393" height="799"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="303" height="377"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     </imageView>
                                 </subviews>
@@ -205,10 +207,14 @@
                         <viewLayoutGuide key="safeArea" id="T0D-xV-Imi"/>
                         <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="nYP-jy-USf" firstAttribute="leading" secondItem="T0D-xV-Imi" secondAttribute="leading" id="9vk-Xs-u9o"/>
                             <constraint firstItem="T0D-xV-Imi" firstAttribute="bottom" secondItem="XpZ-E6-ojM" secondAttribute="bottom" constant="17" id="BON-jD-SFd"/>
                             <constraint firstItem="Po5-NE-Ri0" firstAttribute="top" secondItem="T0D-xV-Imi" secondAttribute="top" constant="8" id="KOD-FJ-r2a"/>
+                            <constraint firstAttribute="bottom" secondItem="nYP-jy-USf" secondAttribute="bottom" id="U8w-fi-Hbl"/>
                             <constraint firstItem="Po5-NE-Ri0" firstAttribute="leading" secondItem="T0D-xV-Imi" secondAttribute="leading" constant="8" id="eXn-GY-vVR"/>
                             <constraint firstItem="XpZ-E6-ojM" firstAttribute="centerX" secondItem="T0D-xV-Imi" secondAttribute="centerX" id="qqc-rF-DgO"/>
+                            <constraint firstItem="T0D-xV-Imi" firstAttribute="trailing" secondItem="nYP-jy-USf" secondAttribute="trailing" id="rea-aT-pIb"/>
+                            <constraint firstItem="nYP-jy-USf" firstAttribute="top" secondItem="fMK-05-Y96" secondAttribute="top" id="vXX-eO-e9h"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Xd4-7l-z2w"/>
