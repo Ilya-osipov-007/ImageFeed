@@ -7,49 +7,61 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
+
+private let imageView = UIImageView()
+private let logoutButton = UIButton()
+private let loginNameLabel = UILabel()
+private let nameLabel = UILabel()
+private let discriptionLabel = UILabel()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        let profileImage = UIImage(named: "Avatar")
-        let imageView = UIImageView(image: profileImage)
+        setupUI()
+    }
+    
+    private func setupImageView() {
+        imageView.image = UIImage(named: "Avatar")
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
+    }
         
-        let logoutButton = UIButton()
+    private func setuplogoutButton() {
         logoutButton.setImage(UIImage(named: "Exit"), for: .normal)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
+    }
         
-        let loginNameLabel = UILabel()
+    private func setupLoginNameLabel() {
         loginNameLabel.text = "@ekaterina_novikova"
         loginNameLabel.font = UIFont.systemFont(ofSize: 13)
         loginNameLabel.textColor = UIColor(named: "GrayColor")
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
-        
-        
-        let nameLabel = UILabel()
+    }
+    
+    private func setupNameLabel() {
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = .white
         nameLabel.font = UIFont.boldSystemFont(ofSize: 18)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
-        
-        let discriptionLabel = UILabel()
+    }
+    
+    private func setupDiscriptionLabel() {
         discriptionLabel.text = "Hello, world!"
         discriptionLabel.font = UIFont.systemFont(ofSize: 13)
         discriptionLabel.textColor = .white
         discriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(discriptionLabel)
+    }
         
-        
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-           
+            
             imageView.widthAnchor.constraint(equalToConstant: 70),
             imageView.heightAnchor.constraint(equalToConstant: 70),
             logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -70,6 +82,15 @@ class ProfileViewController: UIViewController {
             
             
         ])
-        
     }
+    
+    private func setupUI() {
+        setupImageView()
+        setuplogoutButton()
+        setupLoginNameLabel()
+        setupNameLabel()
+        setupDiscriptionLabel()
+        setupConstraints()
+    }
+    
 }
