@@ -70,7 +70,7 @@ extension ImagesListViewController: UITableViewDelegate {
                 let viewController = segue.destination as? SingleImageViewController,
                 let indexPath = sender as? IndexPath
             else {
-                print("Invalid segue destinanation")
+                print("Invalid segue destinanation")  //for alex
                 return
             }
             
