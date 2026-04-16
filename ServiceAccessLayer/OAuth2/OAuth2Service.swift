@@ -7,14 +7,6 @@
 
 import Foundation
 
-enum OAuth2ServiceError: Error {
-    case invalidRequest
-    case invalidResponse
-    case httpStatusCode(Int)
-    case noData
-    case decodingError
-}
-
 struct OAuthTokenResponseBody: Decodable {
     let accessToken: String
 
@@ -54,38 +46,34 @@ final class OAuth2Service {
 
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let request = makeOAuthTokenRequest(code: code) else {
-            completion(.failure(OAuth2ServiceError.invalidRequest))
+            completion(.failure(NetworkError.invalidRequest))
             return
         }
 
-        let task = urlSession.dataTask(with: request) { data, response, error in
-            if let error {
+        let task = urlSession.data(for: request) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let responseBody = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+                    let token = responseBody.accessToken
+                    OAuth2TokenStorage.shared.token = token
+                    completion(.success(token))
+                } catch {
+                    print("[OAuth2Service] Decoding error: \(error)")
+                    completion(.failure(NetworkError.decodingError(error)))
+                }
+            case .failure(let error):
+                if case let NetworkError.httpStatusCode(statusCode) = error {
+                    print("[OAuth2Service] Unsplash error, status code: \(statusCode)")
+                } else if case let NetworkError.urlRequestError(urlError) = error {
+                    print("[OAuth2Service] Network error: \(urlError.localizedDescription)")
+                } else {
+                    print("[OAuth2Service] OAuth request failed: \(error)")
+                }
                 completion(.failure(error))
-                return
-            }
-
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(OAuth2ServiceError.invalidResponse))
-                return
-            }
-
-            guard (200 ... 299).contains(httpResponse.statusCode) else {
-                completion(.failure(OAuth2ServiceError.httpStatusCode(httpResponse.statusCode)))
-                return
-            }
-
-            guard let data else {
-                completion(.failure(OAuth2ServiceError.noData))
-                return
-            }
-
-            do {
-                let responseBody = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                completion(.success(responseBody.accessToken))
-            } catch {
-                completion(.failure(OAuth2ServiceError.decodingError))
             }
         }
         task.resume()
     }
+    
 }
