@@ -24,14 +24,27 @@ final class OAuth2Service {
 
     private let urlSession = URLSession.shared
     private let decoder = JSONDecoder()
+    private var task: URLSessionTask?
+    private var lastCode: String?
     
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        if lastCode == code, task != nil {
+            completion(.failure(NetworkError.invalidRequest))
+            return
+        }
+        
         guard let request = makeOAuthTokenRequest(code: code) else {
             completion(.failure(NetworkError.invalidRequest))
             return
         }
 
-        let task = urlSession.data(for: request) { [decoder] result in
+        lastCode = code
+        
+        let task = urlSession.data(for: request) { [weak self, decoder] result in
+            guard let self = self else { return }
+            self.task = nil
+            self.lastCode = nil
+            
             switch result {
             case .success(let data):
                 do {
@@ -54,6 +67,7 @@ final class OAuth2Service {
                 completion(.failure(error))
             }
         }
+        self.task = task
         task.resume()
     }
 
