@@ -47,7 +47,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k7D-7y-ICs" userLabel="Gradient for date">
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k7D-7y-ICs" userLabel="Gradient for date">
                                                     <rect key="frame" x="16" y="187" width="361" height="30"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
@@ -111,7 +111,7 @@
                             <constraint firstItem="qxt-6j-ml6" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="z8N-kt-lzW"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" selectedImage="tab_editorial_active" id="2ZL-Iq-nhE"/>
+                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="2ZL-Iq-nhE"/>
                     <navigationItem key="navigationItem" id="EdA-6P-PWn"/>
                     <connections>
                         <outlet property="tableView" destination="qxt-6j-ml6" id="KIx-6n-pZX"/>
@@ -228,8 +228,8 @@
                         </tabBarAppearance>
                     </tabBar>
                     <connections>
-                        <segue destination="mYv-Ti-8gk" kind="relationship" relationship="viewControllers" id="LD7-Q9-4Yu"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="b2O-s0-rYI"/>
+                        <segue destination="mYv-Ti-8gk" kind="relationship" relationship="viewControllers" id="Bu0-UH-aOU"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TpW-xe-wmX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -250,7 +250,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbJ-Wa-Ms1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1569" y="-469"/>
+            <point key="canvasLocation" x="-1140" y="-406"/>
         </scene>
         <!--Single Image View Controller-->
         <scene sceneID="pHt-Jb-hRb">
@@ -264,11 +264,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="H1K-Jd-9I2">
-                                        <rect key="frame" x="0.0" y="0.0" width="303" height="377"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                     </imageView>
                                 </subviews>
-                                <viewLayoutGuide key="contentLayoutGuide" id="oES-qS-VYm"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="iJE-Ly-KDC"/>
                                 <constraints>
                                     <constraint firstItem="H1K-Jd-9I2" firstAttribute="leading" secondItem="oES-qS-VYm" secondAttribute="leading" id="Aq2-RP-AUh"/>
                                     <constraint firstItem="H1K-Jd-9I2" firstAttribute="trailing" secondItem="oES-qS-VYm" secondAttribute="trailing" id="B7p-zg-EMm"/>
@@ -277,6 +275,8 @@
                                     <constraint firstItem="H1K-Jd-9I2" firstAttribute="width" secondItem="iJE-Ly-KDC" secondAttribute="width" id="fV0-vq-LDU"/>
                                     <constraint firstItem="H1K-Jd-9I2" firstAttribute="height" secondItem="iJE-Ly-KDC" secondAttribute="height" id="gQz-9p-aBj"/>
                                 </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="oES-qS-VYm"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="iJE-Ly-KDC"/>
                                 <connections>
                                     <outlet property="delegate" destination="V5V-CN-9eR" id="QLy-ku-z54"/>
                                 </connections>
@@ -365,8 +365,10 @@
                         <viewLayoutGuide key="safeArea" id="gYH-3V-wob"/>
                         <color key="backgroundColor" name="ypBlack"/>
                         <constraints>
-                            <constraint firstItem="nrS-qB-JGO" firstAttribute="centerX" secondItem="gYH-3V-wob" secondAttribute="centerX" id="Hzt-k5-SDH"/>
-                            <constraint firstItem="nrS-qB-JGO" firstAttribute="centerY" secondItem="gYH-3V-wob" secondAttribute="centerY" id="Zgf-AP-NVL"/>
+                            <constraint firstAttribute="trailing" secondItem="nrS-qB-JGO" secondAttribute="trailing" constant="160" id="nA7-j1-9Ip"/>
+                            <constraint firstAttribute="bottom" secondItem="nrS-qB-JGO" secondAttribute="bottom" constant="388" id="teJ-0V-V7M"/>
+                            <constraint firstItem="nrS-qB-JGO" firstAttribute="top" secondItem="EQA-Jt-KCv" secondAttribute="top" constant="389" id="vK0-UM-trj"/>
+                            <constraint firstItem="nrS-qB-JGO" firstAttribute="leading" secondItem="EQA-Jt-KCv" secondAttribute="leading" constant="160" id="yqO-vk-JXb"/>
                         </constraints>
                     </view>
                     <connections>

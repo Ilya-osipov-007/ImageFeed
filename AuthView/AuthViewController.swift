@@ -7,6 +7,7 @@ protocol AuthViewControllerDelegate: AnyObject {
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
+    private var isAuthenticating = false
     
     weak var delegate: AuthViewControllerDelegate?
     
@@ -40,17 +41,24 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        vc.dismiss(animated: true)
+        guard !isAuthenticating else { return }
+        isAuthenticating = true
         
         fetchOAuthToken(code) { [weak self] result in
             guard let self = self else { return }
+            self.isAuthenticating = false
             
             switch result {
             case .success:
                 self.delegate?.didAuthenticate(self)
             case .failure:
-                // TODO [Sprint 11] Добавьте обработку ошибки
-                break
+                let alert = UIAlertController(
+                    title: "Что-то пошло не так",
+                    message: "Не удалось войти. Попробуйте еще раз.",
+                    preferredStyle: .alert
+                )
+                alert.addAction(UIAlertAction(title: "Ок", style: .default))
+                vc.present(alert, animated: true)
             }
         }
     }

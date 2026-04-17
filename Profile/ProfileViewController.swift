@@ -36,7 +36,7 @@ private let discriptionLabel = UILabel()
     private func setupLoginNameLabel() {
         loginNameLabel.text = "@ekaterina_novikova"
         loginNameLabel.font = UIFont.systemFont(ofSize: 13)
-        loginNameLabel.textColor = UIColor(named: "GrayColor")
+        loginNameLabel.textColor = UIColor(named: "ypGray")
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
     }
