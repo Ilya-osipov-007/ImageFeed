@@ -50,6 +50,11 @@
 			path = SingleImigeView;
 			sourceTree = "<group>";
 		};
+		80561C822F51B42800F9F969 /* AuthView */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AuthView;
+			sourceTree = "<group>";
+		};
 		8069F0992F34A75D006BDDEE /* ImageFeed */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -71,6 +76,16 @@
 		80F935582F363B0B004E8422 /* ImagesList */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		80FC431A2F9015FA0008CCB7 /* ServiceAccessLayer */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ServiceAccessLayer;
+			sourceTree = "<group>";
+		};
+		80FC431C2F9016DA0008CCB7 /* SplashViewController */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SplashViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -103,6 +118,9 @@
 		8069F08E2F34A75D006BDDEE = {
 			isa = PBXGroup;
 			children = (
+				80FC431C2F9016DA0008CCB7 /* SplashViewController */,
+				80FC431A2F9015FA0008CCB7 /* ServiceAccessLayer */,
+				80561C822F51B42800F9F969 /* AuthView */,
 				80561C7E2F3C85C500F9F969 /* SingleImigeView */,
 				80561BA62F38BF5800F9F969 /* Profile */,
 				80F935582F363B0B004E8422 /* ImagesList */,
@@ -141,8 +159,11 @@
 			fileSystemSynchronizedGroups = (
 				80561BA62F38BF5800F9F969 /* Profile */,
 				80561C7E2F3C85C500F9F969 /* SingleImigeView */,
+				80561C822F51B42800F9F969 /* AuthView */,
 				8069F0992F34A75D006BDDEE /* ImageFeed */,
 				80F935582F363B0B004E8422 /* ImagesList */,
+				80FC431A2F9015FA0008CCB7 /* ServiceAccessLayer */,
+				80FC431C2F9016DA0008CCB7 /* SplashViewController */,
 			);
 			name = ImageFeed;
 			packageProductDependencies = (
@@ -324,6 +345,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					WebKit,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = osipovIlya.ImageFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -355,6 +381,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					WebKit,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = osipovIlya.ImageFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
