@@ -23,47 +23,38 @@ final class OAuth2Service {
     private init() {}
 
     private let urlSession = URLSession.shared
-    private let decoder = JSONDecoder()
     private var task: URLSessionTask?
     private var lastCode: String?
     
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        if lastCode == code, task != nil {
-            completion(.failure(NetworkError.invalidRequest))
-            return
-        }
-        
-        guard let request = makeOAuthTokenRequest(code: code) else {
+        assert(Thread.isMainThread)
+
+        guard lastCode != code else {
             completion(.failure(NetworkError.invalidRequest))
             return
         }
 
+        task?.cancel()
         lastCode = code
+
+        guard let request = makeOAuthTokenRequest(code: code) else {
+            lastCode = nil
+            completion(.failure(NetworkError.invalidRequest))
+            return
+        }
         
-        let task = urlSession.data(for: request) { [weak self, decoder] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             guard let self = self else { return }
             self.task = nil
             self.lastCode = nil
-            
+
             switch result {
-            case .success(let data):
-                do {
-                    let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    let token = responseBody.accessToken
-                    OAuth2TokenStorage.shared.token = token
-                    completion(.success(token))
-                } catch {
-                    print("[OAuth2Service] Decoding error: \(error)")
-                    completion(.failure(NetworkError.decodingError(error)))
-                }
+            case .success(let responseBody):
+                let token = responseBody.accessToken
+                OAuth2TokenStorage.shared.token = token
+                completion(.success(token))
             case .failure(let error):
-                if case let NetworkError.httpStatusCode(statusCode) = error {
-                    print("[OAuth2Service] Unsplash error, status code: \(statusCode)")
-                } else if case let NetworkError.urlRequestError(urlError) = error {
-                    print("[OAuth2Service] Network error: \(urlError.localizedDescription)")
-                } else {
-                    print("[OAuth2Service] OAuth request failed: \(error)")
-                }
+                print("[OAuth2Service fetchOAuthToken]: \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }

@@ -5,6 +5,7 @@
 //  Created by Илья Геннадьевич on 08.02.2026.
 //
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
 
@@ -12,12 +13,76 @@ private let imageView = UIImageView()
 private let logoutButton = UIButton()
 private let loginNameLabel = UILabel()
 private let nameLabel = UILabel()
-private let discriptionLabel = UILabel()
+private let descriptionLabel = UILabel()
+private var profileImageServiceObserver: NSObjectProtocol?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        if let profile = ProfileService.shared.profile {
+            updateProfileDetails(profile: profile)
+        }
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
+    }
+
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let imageUrl = URL(string: profileImageURL)
+        else { return }
+
+        print("imageUrl: \(imageUrl)")
+
+        let placeholderImage = UIImage(systemName: "person.circle.fill")?
+            .withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+            .withConfiguration(UIImage.SymbolConfiguration(pointSize: 70, weight: .regular, scale: .large))
+
+        let processor = RoundCornerImageProcessor(cornerRadius: 35)
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(
+            with: imageUrl,
+            placeholder: placeholderImage,
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage,
+                .forceRefresh
+            ]) { result in
+                switch result {
+                case .success(let value):
+                    print(value.image)
+                    print(value.cacheType)
+                    print(value.source)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+    }
+
+    private func updateProfileDetails(profile: Profile) {
+        nameLabel.text = profile.name.isEmpty
+            ? "Имя не указано"
+            : profile.name
+        loginNameLabel.text = profile.loginName.isEmpty
+            ? "@неизвестный_пользователь"
+            : profile.loginName
+        descriptionLabel.text = (profile.bio?.isEmpty ?? true)
+            ? "Профиль не заполнен"
+            : profile.bio
+    }
+
+    @IBAction private func didTapLogoutButton() {
     }
     
     private func setupImageView() {
@@ -34,7 +99,6 @@ private let discriptionLabel = UILabel()
     }
         
     private func setupLoginNameLabel() {
-        loginNameLabel.text = "@ekaterina_novikova"
         loginNameLabel.font = UIFont.systemFont(ofSize: 13)
         loginNameLabel.textColor = UIColor(named: "ypGray")
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -42,7 +106,6 @@ private let discriptionLabel = UILabel()
     }
     
     private func setupNameLabel() {
-        nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = .white
         nameLabel.font = UIFont.boldSystemFont(ofSize: 18)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -50,11 +113,10 @@ private let discriptionLabel = UILabel()
     }
     
     private func setupDiscriptionLabel() {
-        discriptionLabel.text = "Hello, world!"
-        discriptionLabel.font = UIFont.systemFont(ofSize: 13)
-        discriptionLabel.textColor = .white
-        discriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(discriptionLabel)
+        descriptionLabel.font = UIFont.systemFont(ofSize: 13)
+        descriptionLabel.textColor = .white
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(descriptionLabel)
     }
         
     private func setupConstraints() {
@@ -77,8 +139,8 @@ private let discriptionLabel = UILabel()
             nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             
             
-            discriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            discriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
             
             
         ])
@@ -92,5 +154,4 @@ private let discriptionLabel = UILabel()
         setupDiscriptionLabel()
         setupConstraints()
     }
-    
 }
