@@ -47,7 +47,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k7D-7y-ICs" userLabel="Gradient for date">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k7D-7y-ICs" userLabel="Gradient for date">
                                                     <rect key="frame" x="16" y="187" width="361" height="30"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
@@ -78,6 +78,7 @@
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="meD-Zx-pkV" secondAttribute="trailing" constant="20" symbolic="YES" id="f0J-ON-o34"/>
                                                 <constraint firstItem="k7D-7y-ICs" firstAttribute="trailing" secondItem="lM8-rd-JXN" secondAttribute="trailing" id="oAm-gM-Bxu"/>
                                                 <constraint firstItem="meD-Zx-pkV" firstAttribute="leading" secondItem="lM8-rd-JXN" secondAttribute="leading" constant="8" id="oTo-T5-VBf"/>
+                                                <constraint firstItem="k7D-7y-ICs" firstAttribute="leading" secondItem="lM8-rd-JXN" secondAttribute="leading" id="qgt-W1-G4O"/>
                                                 <constraint firstItem="OnM-wG-ykU" firstAttribute="top" secondItem="lM8-rd-JXN" secondAttribute="top" id="vIu-Ed-bO5"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -125,7 +126,7 @@
         <!--Auth View Controller-->
         <scene sceneID="Gj6-Hu-Jkx">
             <objects>
-                <viewController id="bTv-hq-QeD" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthViewController" id="bTv-hq-QeD" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RLw-SA-xhT">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
