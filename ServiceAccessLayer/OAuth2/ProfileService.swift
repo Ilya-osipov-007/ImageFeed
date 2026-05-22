@@ -17,7 +17,7 @@ struct Profile {
 struct ProfileResult: Codable {
     let username: String
     let firstName: String
-    let lastName: String
+    let lastName: String?
     let bio: String?
 
     private enum CodingKeys: String, CodingKey {
@@ -30,6 +30,7 @@ struct ProfileResult: Codable {
 
 final class ProfileService {
     static let shared = ProfileService()
+    private init() {}
 
     private var task: URLSessionTask?
     private let urlSession = URLSession.shared
@@ -46,9 +47,12 @@ final class ProfileService {
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             switch result {
             case .success(let profileResult):
+                let fullName = [profileResult.firstName, profileResult.lastName]
+                    .compactMap { $0 }
+                    .joined(separator: " ")
                 let profile = Profile(
                     username: profileResult.username,
-                    name: profileResult.firstName,
+                    name: fullName,
                     loginName: "@\(profileResult.username)",
                     bio: profileResult.bio
                 )

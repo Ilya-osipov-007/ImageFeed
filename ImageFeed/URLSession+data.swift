@@ -31,8 +31,7 @@ extension URLSession {
                 if 200 ..< 300 ~= statusCode {
                     fulfillCompletionOnTheMainThread(.success(data))
                 } else {
-                    let responseBody = String(data: data, encoding: .utf8) ?? "<empty body>"
-                    print("[URLSession] Unsplash service error \(statusCode): \(responseBody)")
+                    print("[dataTask]: NetworkError - код ошибки \(statusCode)")
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 }
             } else if let error {
@@ -59,8 +58,8 @@ extension URLSession {
                     let object = try decoder.decode(T.self, from: data)
                     completion(.success(object))
                 } catch {
-                    print("Ошибка декодирования: \(error.localizedDescription), Данные: \(String(data: data, encoding: .utf8) ?? "")")
-                    completion(.failure(error))
+                    print("[objectTask]: Decoding error - \(error.localizedDescription), данные: \(String(data: data, encoding: .utf8) ?? "")")
+                    completion(.failure(NetworkError.decodingError(error)))
                 }
             case .failure(let error):
                 completion(.failure(error))
