@@ -1,4 +1,5 @@
 import UIKit
+import ProgressHUD
 
 protocol AuthViewControllerDelegate: AnyObject {
     func didAuthenticate(_ vc: AuthViewController)
@@ -41,10 +42,18 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        
         guard !isAuthenticating else { return }
         isAuthenticating = true
+
+        vc.dismiss(animated: true)
+        UIBlockingProgressHUD.show()
+        
         
         fetchOAuthToken(code) { [weak self] result in
+            // Скрываем индикатор загрузки
+            UIBlockingProgressHUD.dismiss()
+            
             guard let self = self else { return }
             self.isAuthenticating = false
             
@@ -54,11 +63,11 @@ extension AuthViewController: WebViewViewControllerDelegate {
             case .failure:
                 let alert = UIAlertController(
                     title: "Что-то пошло не так",
-                    message: "Не удалось войти. Попробуйте еще раз.",
+                    message: "Не удалось войти в систему",
                     preferredStyle: .alert
                 )
                 alert.addAction(UIAlertAction(title: "Ок", style: .default))
-                vc.present(alert, animated: true)
+                self.present(alert, animated: true)
             }
         }
     }
