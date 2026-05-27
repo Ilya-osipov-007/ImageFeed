@@ -20,8 +20,8 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 final class WebViewViewController: UIViewController {
     
-    @IBOutlet private var webView: WKWebView!
-    @IBOutlet private var progressView: UIProgressView!
+    @IBOutlet private weak var webView: WKWebView!
+    @IBOutlet private weak var progressView: UIProgressView!
     
     weak var delegate: WebViewViewControllerDelegate?
     private var estimatedProgressObservation: NSKeyValueObservation?
@@ -32,20 +32,27 @@ final class WebViewViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil) // 3
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "ypBlack") // 4
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        webView.navigationDelegate = self
+        setupWebView()
+        setupProgressObservation()
+        configureBackButton()
+        loadAuthView()
+    }
 
+    private func setupWebView() {
+        webView.navigationDelegate = self
+    }
+
+    private func setupProgressObservation() {
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
             options: .new
         ) { [weak self] _, _ in
             self?.updateProgress()
         }
-
-        loadAuthView()
-        configureBackButton()
     }
 
     private func loadAuthView() {

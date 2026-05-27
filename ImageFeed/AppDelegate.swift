@@ -8,7 +8,7 @@
 import UIKit
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 
@@ -16,14 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         configurationForConnecting connectingSceneSession: UISceneSession,
         options: UIScene.ConnectionOptions
-     ) -> UISceneConfiguration {
-        let sceneConfiguration = UISceneConfiguration(          // 1
+    ) -> UISceneConfiguration {
+        makeSceneConfiguration(for: connectingSceneSession)
+    }
+
+    private func makeSceneConfiguration(
+        for session: UISceneSession
+    ) -> UISceneConfiguration {
+        let configuration = UISceneConfiguration(
             name: "Main",
-            sessionRole: connectingSceneSession.role
+            sessionRole: session.role
         )
-        sceneConfiguration.delegateClass = SceneDelegate.self   // 2
-        return sceneConfiguration
-     }
+        configuration.delegateClass = SceneDelegate.self
+        return configuration
+    }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
     }
