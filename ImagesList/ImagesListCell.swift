@@ -8,9 +8,15 @@
 import UIKit
 import Kingfisher
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
+
 final class ImagesListCell: UITableViewCell { // for 08 sprint
     static let reuseIdentifier = "ImagesListCell" // for 08 sprint
-  
+
+    weak var delegate: ImagesListCellDelegate?
+
     @IBOutlet var dateBackgroundView: UIView! // for 08 sprint
     @IBOutlet var likeButton: UIButton! // for 08 sprint
     @IBOutlet var cellImage: UIImageView! // for 08 sprint
@@ -46,6 +52,15 @@ final class ImagesListCell: UITableViewCell { // for 08 sprint
     override func prepareForReuse() {
         super.prepareForReuse()
         cellImage.kf.cancelDownloadTask()
+    }
+
+    func setIsLiked(_ isLiked: Bool) {
+        let likeImage = UIImage(resource: isLiked ? .likeButtonOn : .likeButtonOff)
+        likeButton.setImage(likeImage, for: .normal)
+    }
+
+    @IBAction private func likeButtonClicked() {
+        delegate?.imageListCellDidTapLike(self)
     }
 }
 

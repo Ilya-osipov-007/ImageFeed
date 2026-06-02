@@ -5,6 +5,7 @@ final class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
 
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
+    private let imagesListService = ImagesListService.shared
     private var photos: [Photo] = []
 
     private lazy var dateFormatter: DateFormatter = {
@@ -18,7 +19,7 @@ final class ImagesListViewController: UIViewController {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         setupNotificationObserver()
-        ImagesListService.shared.fetchPhotosNextPage()
+        imagesListService.fetchPhotosNextPage()
     }
 
     private func setupNotificationObserver() {
@@ -32,8 +33,8 @@ final class ImagesListViewController: UIViewController {
 
     @objc private func updateTableViewAnimated() {
         let oldCount = photos.count
-        let newCount = ImagesListService.shared.photos.count
-        photos = ImagesListService.shared.photos
+        let newCount = imagesListService.photos.count
+        photos = imagesListService.photos
 
         guard oldCount != newCount else { return }
 
@@ -58,6 +59,7 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         configCell(for: imageListCell, with: indexPath)
+        imageListCell.delegate = self
         return imageListCell
     }
 }
@@ -93,7 +95,7 @@ extension ImagesListViewController: UITableViewDelegate {
         forRowAt indexPath: IndexPath
     ) {
         if indexPath.row == photos.count - 1 {
-            ImagesListService.shared.fetchPhotosNextPage()
+            imagesListService.fetchPhotosNextPage()
         }
     }
 
@@ -101,12 +103,12 @@ extension ImagesListViewController: UITableViewDelegate {
         if segue.identifier == showSingleImageSegueIdentifier {
             guard
                 let viewController = segue.destination as? SingleImageViewController,
-                let _ = sender as? IndexPath
+                let indexPath = sender as? IndexPath
             else {
                 print("Invalid segue destination")
                 return
             }
-            viewController.image = nil
+            viewController.imageURL = URL(string: photos[indexPath.row].largeImageURL)
         } else {
             super.prepare(for: segue, sender: sender)
         }
@@ -120,5 +122,25 @@ extension ImagesListViewController: UITableViewDelegate {
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
         let scale = imageViewWidth / photo.size.width
         return photo.size.height * scale + imageInsets.top + imageInsets.bottom
+    }
+}
+
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success:
+                self.photos = self.imagesListService.photos
+                cell.setIsLiked(self.photos[indexPath.row].isLiked)
+                UIBlockingProgressHUD.dismiss()
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
+            }
+        }
     }
 }
