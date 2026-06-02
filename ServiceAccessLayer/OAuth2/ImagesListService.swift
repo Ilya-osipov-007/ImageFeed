@@ -39,7 +39,7 @@ final class ImagesListService {
     static let shared = ImagesListService()
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
 
-    private init() {}
+    init() {}
 
     private(set) var photos: [Photo] = []
     private var currentPage = 0
@@ -84,6 +84,53 @@ final class ImagesListService {
         task.resume()
     }
 
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        guard
+            let token = OAuth2TokenStorage.shared.token,
+            let request = makeLikeRequest(photoId: photoId, isLike: isLike, token: token)
+        else {
+            completion(.failure(NetworkError.invalidRequest))
+            return
+        }
+
+        let task = urlSession.data(for: request) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success:
+                if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                    let photo = self.photos[index]
+                    let newPhoto = Photo(
+                        id: photo.id,
+                        size: photo.size,
+                        createdAt: photo.createdAt,
+                        welcomeDescription: photo.welcomeDescription,
+                        thumbImageURL: photo.thumbImageURL,
+                        largeImageURL: photo.largeImageURL,
+                        isLiked: !photo.isLiked
+                    )
+                    self.photos = self.photos.withReplaced(itemAt: index, newValue: newPhoto)
+                }
+                completion(.success(()))
+            case .failure(let error):
+                print("[ImagesListService changeLike]: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+
+    private func makeLikeRequest(photoId: String, isLike: Bool, token: String) -> URLRequest? {
+        guard let url = URL(string: "https://api.unsplash.com/photos/\(photoId)/like") else {
+            return nil
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = isLike ? HTTPMethod.post.rawValue : HTTPMethod.delete.rawValue
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
+    }
+
     private func convert(_ result: PhotoResult) -> Photo {
         Photo(
             id: result.id,
@@ -112,5 +159,13 @@ final class ImagesListService {
         request.httpMethod = "GET"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
+    }
+}
+
+private extension Array {
+    func withReplaced(itemAt index: Int, newValue: Element) -> [Element] {
+        var result = self
+        result[index] = newValue
+        return result
     }
 }

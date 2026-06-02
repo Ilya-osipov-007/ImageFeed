@@ -1,0 +1,18 @@
+//
+//  Image_FeedTests.swift
+//  Image FeedTests
+//
+//  Created by Илья Геннадьевич on 30.05.2026.
+//
+
+import Testing
+
+struct Image_FeedTests {
+
+    @Test func example() async throws {
+        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+        // Swift Testing Documentation
+        // https://developer.apple.com/documentation/testing
+    }
+
+}

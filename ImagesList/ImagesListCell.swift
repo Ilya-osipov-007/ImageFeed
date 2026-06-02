@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ImagesListCell: UITableViewCell { // for 08 sprint
     static let reuseIdentifier = "ImagesListCell" // for 08 sprint
@@ -41,5 +42,10 @@ final class ImagesListCell: UITableViewCell { // for 08 sprint
             super.layoutSubviews() // for 08 sprint
             gradientLayer.frame = dateBackgroundView.bounds // for 08 sprint
         }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellImage.kf.cancelDownloadTask()
+    }
 }
 
