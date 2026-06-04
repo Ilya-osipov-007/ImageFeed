@@ -76,7 +76,7 @@ final class ImagesListService {
                     object: self
                 )
             case .failure(let error):
-                print("[ImagesListService fetchPhotosNextPage]: \(error.localizedDescription)")
+                print("[ImagesListService fetchPhotosNextPage]: \(error.localizedDescription) page: \(nextPage)")
             }
         }
 
@@ -113,7 +113,7 @@ final class ImagesListService {
                 }
                 completion(.success(()))
             case .failure(let error):
-                print("[ImagesListService changeLike]: \(error.localizedDescription)")
+                print("[ImagesListService changeLike]: \(error.localizedDescription) photoId: \(photoId), isLike: \(isLike)")
                 completion(.failure(error))
             }
         }

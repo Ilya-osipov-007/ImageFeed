@@ -46,12 +46,9 @@ extension AuthViewController: WebViewViewControllerDelegate {
         guard !isAuthenticating else { return }
         isAuthenticating = true
 
-        vc.dismiss(animated: true)
         UIBlockingProgressHUD.show()
-        
-        
+
         fetchOAuthToken(code) { [weak self] result in
-            // Скрываем индикатор загрузки
             UIBlockingProgressHUD.dismiss()
             
             guard let self = self else { return }

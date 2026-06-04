@@ -83,6 +83,24 @@ private var profileImageServiceObserver: NSObjectProtocol?
     }
 
     @IBAction private func didTapLogoutButton() {
+        let alert = UIAlertController(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Нет", style: .default))
+        alert.addAction(UIAlertAction(title: "Да", style: .destructive) { [weak self] _ in
+            self?.logout()
+        })
+        present(alert, animated: true)
+    }
+
+    private func logout() {
+        OAuth2TokenStorage.shared.token = nil
+        HTTPCookieStorage.shared.removeCookies(since: .distantPast)
+
+        guard let window = view.window else { return }
+        window.rootViewController = SplashViewController()
     }
     
     private func setupImageView() {
