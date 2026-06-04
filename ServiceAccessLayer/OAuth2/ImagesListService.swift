@@ -121,9 +121,11 @@ final class ImagesListService {
     }
 
     private func makeLikeRequest(photoId: String, isLike: Bool, token: String) -> URLRequest? {
-        guard let url = URL(string: "https://api.unsplash.com/photos/\(photoId)/like") else {
-            return nil
-        }
+        guard let url = Constants.defaultBaseURL?
+            .appendingPathComponent(Constants.photosPath)
+            .appendingPathComponent(photoId)
+            .appendingPathComponent(Constants.likePath)
+        else { return nil }
 
         var request = URLRequest(url: url)
         request.httpMethod = isLike ? HTTPMethod.post.rawValue : HTTPMethod.delete.rawValue
@@ -144,9 +146,9 @@ final class ImagesListService {
     }
 
     private func makePhotosRequest(page: Int, token: String) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: "https://api.unsplash.com/photos") else {
-            return nil
-        }
+        guard let photosURL = Constants.defaultBaseURL?.appendingPathComponent(Constants.photosPath),
+              var urlComponents = URLComponents(url: photosURL, resolvingAgainstBaseURL: false)
+        else { return nil }
 
         urlComponents.queryItems = [
             URLQueryItem(name: "page", value: "\(page)"),

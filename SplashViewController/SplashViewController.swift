@@ -53,11 +53,11 @@ final class SplashViewController: UIViewController {
 
     private func showProfileLoadError() {
         let alert = UIAlertController(
-            title: "Что-то пошло не так",
-            message: "Не удалось войти в систему",
+            title: NSLocalizedString("profile.error.title", comment: ""),
+            message: NSLocalizedString("profile.error.message", comment: ""),
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "ОК", style: .default) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("common.ok", comment: ""), style: .default) { [weak self] _ in
             self?.showAuthScreen()
         })
         present(alert, animated: true)
