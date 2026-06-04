@@ -109,6 +109,7 @@ extension SplashViewController: AuthViewControllerDelegate {
 
             guard let self = self else { return }
 
+            
             switch result {
             case let .success(profile):
                 ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in }
