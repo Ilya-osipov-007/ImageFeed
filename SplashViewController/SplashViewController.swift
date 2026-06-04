@@ -3,6 +3,7 @@ import UIKit
 final class SplashViewController: UIViewController {
     private let storage = OAuth2TokenStorage.shared
     private let profileService = ProfileService.shared
+    private var didCheckAuthorization = false
 
     private let logoImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "splash_screen_logo"))
@@ -18,6 +19,8 @@ final class SplashViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        guard !didCheckAuthorization else { return }
+        didCheckAuthorization = true
 
         if let token = storage.token {
             fetchProfile(token: token)
@@ -48,6 +51,18 @@ final class SplashViewController: UIViewController {
         ])
     }
 
+    private func showProfileLoadError() {
+        let alert = UIAlertController(
+            title: NSLocalizedString("profile.error.title", comment: ""),
+            message: NSLocalizedString("profile.error.message", comment: ""),
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: NSLocalizedString("common.ok", comment: ""), style: .default) { [weak self] _ in
+            self?.showAuthScreen()
+        })
+        present(alert, animated: true)
+    }
+
     private func showAuthScreen() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         guard let viewController = storyboard.instantiateViewController(
@@ -57,8 +72,9 @@ final class SplashViewController: UIViewController {
             return
         }
         viewController.delegate = self
-        viewController.modalPresentationStyle = .fullScreen
-        present(viewController, animated: true)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
 
     private func switchToTabBarController() {
@@ -98,7 +114,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                 ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in }
                 self.switchToTabBarController()
             case let .failure(error):
-                print(error)
+                print("[SplashViewController fetchProfile]: \(error.localizedDescription)")
+                self.showProfileLoadError()
             }
         }
     }

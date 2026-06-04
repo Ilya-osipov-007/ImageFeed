@@ -20,8 +20,8 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 final class WebViewViewController: UIViewController {
     
-    @IBOutlet private var webView: WKWebView!
-    @IBOutlet private var progressView: UIProgressView!
+    @IBOutlet private weak var webView: WKWebView!
+    @IBOutlet private weak var progressView: UIProgressView!
     
     weak var delegate: WebViewViewControllerDelegate?
     private var estimatedProgressObservation: NSKeyValueObservation?
@@ -32,38 +32,48 @@ final class WebViewViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil) // 3
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "ypBlack") // 4
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        webView.navigationDelegate = self
+        setupWebView()
+        setupProgressObservation()
+        configureBackButton()
+        loadAuthView()
+    }
 
+    private func setupWebView() {
+        webView.navigationDelegate = self
+    }
+
+    private func setupProgressObservation() {
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
             options: .new
         ) { [weak self] _, _ in
             self?.updateProgress()
         }
-
-        loadAuthView()
-        configureBackButton()
     }
 
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
+            print("[WebView] Failed to create URLComponents")
             return
         }
-        
+
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
             URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
-        
+
         guard let url = urlComponents.url else {
+            print("[WebView] Failed to build URL from components")
             return
         }
-        
+
+        print("[WebView] Loading: \(url.absoluteString)")
         let request = URLRequest(url: url)
         webView.load(request)
     }
@@ -85,6 +95,22 @@ extension WebViewViewController: WKNavigationDelegate {
         } else {
             decisionHandler(.allow)
         }
+    }
+
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationResponse: WKNavigationResponse,
+        decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void
+    ) {
+        decisionHandler(.allow)
+    }
+
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print("[WebView] didFailProvisionalNavigation: \(error.localizedDescription)")
+    }
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        print("[WebView] didFail: \(error.localizedDescription)")
     }
 
     private func code(from navigationAction: WKNavigationAction) -> String? {

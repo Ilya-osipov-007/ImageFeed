@@ -65,6 +65,9 @@
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="like_button_on"/>
+                                                    <connections>
+                                                        <action selector="likeButtonClicked" destination="lGs-kd-RDo" eventType="touchUpInside" id="lkB-tn-cLK"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -302,6 +305,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Xd4-7l-z2w"/>
                     <connections>
+                        <outlet property="backButton" destination="Po5-NE-Ri0" id="bck-Btn-conn"/>
                         <outlet property="imageView" destination="H1K-Jd-9I2" id="QSL-ge-xXq"/>
                         <outlet property="scrollView" destination="nYP-jy-USf" id="rvP-XM-IXg"/>
                     </connections>

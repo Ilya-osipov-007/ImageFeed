@@ -1,0 +1,10 @@
+// MARK: - Logout Alert
+"logout.alert.title" = "Пока, пока!";
+"logout.alert.message" = "Уверены, что хотите выйти?";
+"logout.alert.confirm" = "Да";
+"logout.alert.cancel" = "Нет";
+
+// MARK: - Profile Load Error
+"profile.error.title" = "Что-то пошло не так";
+"profile.error.message" = "Не удалось войти в систему";
+"common.ok" = "ОК";

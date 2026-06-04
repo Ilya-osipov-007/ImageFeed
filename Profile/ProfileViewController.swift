@@ -6,6 +6,7 @@
 //
 import UIKit
 import Kingfisher
+import WebKit
 
 class ProfileViewController: UIViewController {
 
@@ -82,7 +83,29 @@ private var profileImageServiceObserver: NSObjectProtocol?
             : profile.bio
     }
 
-    @IBAction private func didTapLogoutButton() {
+    @objc private func didTapLogoutButton() {
+        let alert = UIAlertController(
+            title: NSLocalizedString("logout.alert.title", comment: ""),
+            message: NSLocalizedString("logout.alert.message", comment: ""),
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: NSLocalizedString("logout.alert.cancel", comment: ""), style: .default))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("logout.alert.confirm", comment: ""), style: .destructive) { [weak self] _ in
+            self?.logout()
+        })
+        present(alert, animated: true)
+    }
+
+    private func logout() {
+        OAuth2TokenStorage.shared.token = nil
+        HTTPCookieStorage.shared.removeCookies(since: .distantPast)
+        WKWebsiteDataStore.default().removeData(
+            ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
+            modifiedSince: .distantPast
+        ) { [weak self] in
+            guard let self, let window = self.view.window else { return }
+            window.rootViewController = SplashViewController()
+        }
     }
     
     private func setupImageView() {
@@ -94,6 +117,7 @@ private var profileImageServiceObserver: NSObjectProtocol?
         
     private func setuplogoutButton() {
         logoutButton.setImage(UIImage(named: "Exit"), for: .normal)
+        logoutButton.addTarget(self, action: #selector(didTapLogoutButton), for: .touchUpInside)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
     }
