@@ -171,6 +171,7 @@ private var profileImageServiceObserver: NSObjectProtocol?
     }
     
     private func setupUI() {
+        view.backgroundColor = UIColor(named: "ypBlack")
         setupImageView()
         setuplogoutButton()
         setupLoginNameLabel()
