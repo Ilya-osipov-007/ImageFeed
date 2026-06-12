@@ -156,6 +156,7 @@
                                         <integer key="value" value="16"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Authenticate"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="oUa-6Y-LiV" kind="show" identifier="ShowWebView" id="b1v-ce-6dz"/>

@@ -41,6 +41,7 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
 
         webView.navigationDelegate = self
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
+        webView.accessibilityIdentifier = "UnsplashWebView"
         configureBackButton()
         presenter?.viewDidLoad()
     }
