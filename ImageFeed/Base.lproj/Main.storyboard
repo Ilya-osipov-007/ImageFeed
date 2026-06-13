@@ -156,6 +156,7 @@
                                         <integer key="value" value="16"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Authenticate"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="oUa-6Y-LiV" kind="show" identifier="ShowWebView" id="b1v-ce-6dz"/>
@@ -181,7 +182,7 @@
         <!--Web View View Controller-->
         <scene sceneID="qy7-SK-rUV">
             <objects>
-                <viewController id="oUa-6Y-LiV" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="oUa-6Y-LiV" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TI6-ga-9Q5">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

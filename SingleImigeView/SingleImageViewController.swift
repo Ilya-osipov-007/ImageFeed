@@ -13,6 +13,7 @@ final class SingleImageViewController: UIViewController {
         let backImage = (UIImage(named: "Backward") ?? UIImage(systemName: "chevron.backward"))?
             .withTintColor(.white, renderingMode: .alwaysOriginal)
         backButton.setImage(backImage, for: .normal)
+        backButton.accessibilityIdentifier = "nav back button white"
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 3.0
         loadImage()
